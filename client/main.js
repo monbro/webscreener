@@ -35,9 +35,6 @@ Template.room.room = function() {
   // customUserName = 'admin3';
   customUserName = Session.get('currentUserId');
 
-  // else extend its lifetime
-
-
   // var jetzt = new Date();
   // var Zeit = jetzt.getTime() / 1000;
   // var Jahr2020 = new Date(2020, 0, 1, 0, 0, 0);
@@ -52,18 +49,19 @@ Template.room.room = function() {
 
     if(value.name == customUserName) {
       active = true;
-      // exdend lifetime here?
     }
     else {
+      // is done serverside now !!
+
       // if any user found with lifetime < now()- 60 sec delete him
-      touch = (new Date(value.touch).getTime() / 1000);
-      newnow = (new Date().getTime() / 1000);
-      diff = (Math.floor(newnow - touch));
-      console.log(diff);
-      if(diff > 60) {
-        //db.temp.update({ _id : "777" }, {$pull : { "someArray.0.someNestedArray" : {"name":"delete me"} } }
-        Rooms.update(room._id,{$pull: {"users": {name: value.name}}});
-      }
+      // touch = (new Date(value.touch).getTime() / 1000);
+      // newnow = (new Date().getTime() / 1000);
+      // diff = (Math.floor(newnow - touch));
+      // console.log(diff);
+      // if(diff > 60) {
+      //   //db.temp.update({ _id : "777" }, {$pull : { "someArray.0.someNestedArray" : {"name":"delete me"} } }
+      //   Rooms.update(room._id,{$pull: {"users": {name: value.name}}});
+      // }
     }
 
   });
@@ -91,11 +89,19 @@ Template.room.room = function() {
   return room;
 };
 
-
+Handlebars.registerHelper('currentUserId',function(input){
+  return Session.get("currentUserId");
+});
 
 // Handlebars.registerHelper("navClassFor", function (nav, options) {
 //   return Meteor.router.navEquals(nav) ? "active" : "";
 // });
+
+function keepAlive() {
+  Meteor.call('keepalive', {userId: Session.get("currentUserId")}, function(err, result) {
+    console.log('keepAlive call done! '+err+' - '+result);
+  });
+}
 
 Meteor.startup(function () {
   // Backbone.history.start();
@@ -112,6 +118,11 @@ Meteor.startup(function () {
     console.log('currentUserId: '+result.id);
     Session.set('currentUserId', result.id);
   });
+
+  // send keep alive every 3 seconds
+  // Meteor.setInterval( function () {
+  //   keepAlive();
+  // }, 3000 );
 
 });
 

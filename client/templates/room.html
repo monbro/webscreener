@@ -1,10 +1,10 @@
 <template name="room">
   Hi, this is Room!
-  
+  You are User {{currentUserId}} in this Room!
   {{#if loading}}
     <div id="lists">Loading...</div>
   {{else}}
-    <div>--> {{room.roomId}}</div>
+    <div>--> {{room.roomId}} with {{room.users.length}} Users</div>
     <ul>
       {{#each room.users}}
       <li class="list">

@@ -28,10 +28,38 @@ Template.rooms.rooms = function () {
   return Rooms.find({roomId:'root'},{});
 };
 
+Template.room.events({
+  'click input.btn' : function () {
+    roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    Rooms.update(room._id,{$push: {"actions": {name: 'toggleLight'}}});
+  }
+});
+
+printAction = function () {
+
+  if(Session.get('isViewer')) {
+      roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    if(typeof room != 'undefined') {
+      lastAction = room.actions.pop();
+      console.log(lastAction);
+      if(lastAction.name == 'toggleLight') {
+        if($('body').css('background-color') == 'rgb(0, 0, 0)')
+          $('body').css('background-color','white');
+        else
+          $('body').css('background-color','black');
+      }
+    }
+  }
+
+};
+
+Deps.autorun(printAction);
+
 Template.room.room = function() {
   roomId = Session.get('currentRoomId');
   room = Rooms.findOne({roomId:roomId},{});
-
   // customUserName = 'admin3';
   customUserName = Session.get('currentUserId');
 

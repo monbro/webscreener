@@ -1,16 +1,30 @@
 <template name="room">
-  Hi, this is Room!
+  Hi, this is Room!<br />
   You are User {{currentUserId}} in this Room!
   {{#if loading}}
     <div id="lists">Loading...</div>
   {{else}}
     <div>--> {{room.roomId}} with {{room.users.length}} Users</div>
-    <ul>
-      {{#each room.users}}
-      <li class="list">
-        {{name}}
-      </li>
-      {{/each}}
-    </ul>
+    <div>
+      <br />
+      {{#if isViewer}}
+        <div><strong>You are Viewer!!</strong></div>
+      {{else}}
+        <div><strong>You are Controller!!</strong>
+        <input type="button" value="Toggle Action" /></div>
+      {{/if}}
+      <br />
+    </div>
+    {{#if room.users}}
+    <div>
+      <ul>Userlist:
+        {{#each room.users}}
+        <li class="list">
+          {{name}}
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+    {{/if}}
   {{/if}}
 </template>

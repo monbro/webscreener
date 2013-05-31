@@ -43,6 +43,13 @@ Template.room.room = function() {
 
   now = new Date();
 
+  if(typeof room.users[0] != 'undefined' && room.users[0].name == customUserName) {
+    Session.set('isViewer', true);
+  }
+  else {
+    Session.set('isViewer', false);
+  }
+
   // loop whole users in this room
   active = false;
   $.each(room.users, function(index, value) {
@@ -66,7 +73,7 @@ Template.room.room = function() {
 
   });
 
-  console.log(active);
+  // console.log(active);
 
   // if user is not found, push a new one inside the room
   if(!active) {
@@ -93,15 +100,19 @@ Handlebars.registerHelper('currentUserId',function(input){
   return Session.get("currentUserId");
 });
 
+Handlebars.registerHelper('isViewer',function(input){
+  return Session.get("isViewer");
+});
+
 // Handlebars.registerHelper("navClassFor", function (nav, options) {
 //   return Meteor.router.navEquals(nav) ? "active" : "";
 // });
 
-function keepAlive() {
-  Meteor.call('keepalive', {userId: Session.get("currentUserId")}, function(err, result) {
-    console.log('keepAlive call done! '+err+' - '+result);
-  });
-}
+// function keepAlive() {
+//   Meteor.call('keepalive', {userId: Session.get("currentUserId")}, function(err, result) {
+//     console.log('keepAlive call done! '+err+' - '+result);
+//   });
+// }
 
 Meteor.startup(function () {
   // Backbone.history.start();
@@ -115,7 +126,7 @@ Meteor.startup(function () {
 
   Meteor.call('login', {anonymous: true}, function(err, result) {
     Accounts._makeClientLoggedIn(result.id, result.token);
-    console.log('currentUserId: '+result.id);
+    // console.log('currentUserId: '+result.id);
     Session.set('currentUserId', result.id);
   });
 

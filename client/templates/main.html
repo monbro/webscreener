@@ -1,0 +1,18 @@
+<head>
+  <title>webscreener2</title>
+</head>
+
+<body>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="#">Pages</a>
+      <ul class="nav">
+        <li class="{{navClassFor 'home'}}"><a href="{{rootPath}}">Home</a></li>
+        <li class="{{navClassFor 'secret'}}"><a href="{{secretPath}}">Secret</a></li>
+        <li><a href="{{newsPath}}">News</a></li>
+        <li><a href="/boguspath">Bogus Path</a></li>
+      </ul>
+    </div>
+  </div>
+  {{renderPage}}
+</body>

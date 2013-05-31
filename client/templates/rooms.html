@@ -1,0 +1,14 @@
+<template name="rooms">
+  <h3>Rooms Lists</h3>
+  {{#if loading}}
+  <div id="lists">Loading...</div>
+  {{else}}
+  <ul id="lists">
+    {{#each rooms}}
+      <li class="list">
+            <a href="{{roomPath}}{{roomId}}">{{name}} - {{roomId}}</a>
+      </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</template>

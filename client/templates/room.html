@@ -1,0 +1,16 @@
+<template name="room">
+  Hi, this is Room!
+  
+  {{#if loading}}
+    <div id="lists">Loading...</div>
+  {{else}}
+    <div>--> {{room.roomId}}</div>
+    <ul>
+      {{#each room.users}}
+      <li class="list">
+        {{name}}
+      </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</template>

@@ -2,6 +2,12 @@ Use jQuery
 
 Use https://github.com/sockjs/sockjs-client
 
+Use https://github.com/crapthings/meteor-hashids {
+  Use https://github.com/broofa/node-uuid
+
+  Use http://www.hashids.org/javascript/
+}
+
 Tutorials:
 
 http://blog.gleitzman.com/post/31143094370/hack-of-the-day-javascript-transport-via-chrome

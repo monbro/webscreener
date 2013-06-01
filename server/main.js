@@ -32,6 +32,21 @@ function garbageCollectorActions() {
   });
 }
 
+function garbageCollectorRooms() {
+  rooms = Rooms.find({},{}).fetch();
+
+  rooms.foreach( function( k, v ) {
+
+    // just reset all actions
+    if(v.users.length === 0) {
+      Rooms.remove(v._id);
+    }
+
+  });
+}
+
+
+
 function checkUserAlive() {
   // users = Users.find({},{});
   rooms = Rooms.find({},{}).fetch();
@@ -58,10 +73,9 @@ function checkUserAlive() {
 
 Meteor.startup(function () {
   // code to run on server at startup
-  if (Rooms.find({roomId:'root'}).count() === 0) {
-    Rooms.insert({name: 'Default Room', roomId: 'root', users: [], actions: []});
-  }
-
+  // if (Rooms.find({roomId:'root'}).count() === 0) {
+  //   Rooms.insert({name: 'Default Room', roomId: 'root', users: [], actions: []});
+  // }
 
   Meteor.setInterval( function () {
     checkUserAlive();
@@ -70,6 +84,10 @@ Meteor.startup(function () {
   Meteor.setInterval( function () {
     garbageCollectorActions();
   }, 10000 );
+
+  Meteor.setInterval( function () {
+    garbageCollectorRooms();
+  }, 20000 );
 
   // Meteor.methods({
   //   keepalive: function (params) {
@@ -89,6 +107,15 @@ Meteor.startup(function () {
       }
       else
         return false;
+    },
+    roomenter: function (params) {
+      if (Rooms.find({roomId: params.roomId}).count() === 0) {
+        id = Rooms.insert({name: 'New Room by Chrome Extension', roomId: params.roomId, users: [], actions: []});
+        return id;
+      }
+      else {
+        return false;
+      }
     }
   });
 

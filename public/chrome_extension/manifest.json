@@ -28,6 +28,8 @@
       "js": [
           "jquery.min.js",
           "sockjs-0.3.min.js",
+          "hashids.js",
+          "uuid.js",
           "inject.js"
           ]
     }

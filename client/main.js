@@ -25,7 +25,7 @@ Template.room.loading = function () {
 };
 
 Template.rooms.rooms = function () {
-  return Rooms.find({roomId:'root'},{});
+  return Rooms.find({},{});
 };
 
 Template.room.events({

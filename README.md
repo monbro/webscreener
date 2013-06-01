@@ -18,3 +18,9 @@ Working with
   }
 
 Working with MongoHub.app https://github.com/fotonauts/MongoHub-Mac
+
+Using a Chrome Extension http://developer.chrome.com/extensions/getstarted.html
+
+Helpful
+
+http://stackoverflow.com/questions/13504324/where-can-we-host-meteor-meteorite-applications

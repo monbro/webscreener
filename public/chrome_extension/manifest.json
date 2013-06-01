@@ -10,6 +10,26 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "https://secure.flickr.com/"
+    "https://secure.flickr.com/",
+    "http://localhost/*",
+    "tabs", "http://webregard.de/*"
+  ],
+  "background": {
+      "scripts": [
+          "jquery.min.js",
+          "background.js"
+          ]
+  },
+  "content_scripts": [  {
+      "matches": [
+          "http://www.webregard.de/*",
+          "https://vimeo.com/*"
+          ],
+      "js": [
+          "jquery.min.js",
+          "sockjs-0.3.min.js",
+          "inject.js"
+          ]
+    }
   ]
 }

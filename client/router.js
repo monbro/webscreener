@@ -3,8 +3,9 @@ Meteor.Router.add({
     return 'news';
   }},
   '/room/:id': { as: 'room', to: function(id) {
-    console.log("roomId: "+id);
     Session.set('currentRoomId', id);
+    now = (new Date().getTime() / 1000);
+    Session.set('dateRoomEntered', now);
     return 'room';
   }},
   '/': { as: 'root', to: function() {

@@ -10,6 +10,8 @@ Working with router package https://atmosphere.meteor.com/package/router
 
 Working with accounts-base
 
+Working with http
+
 Working with
   "accounts-anonymous": {
     "git": "https://github.com/rissem/meteor-accounts-anonymous"

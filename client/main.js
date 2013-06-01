@@ -29,29 +29,65 @@ Template.rooms.rooms = function () {
 };
 
 Template.room.events({
-  'click input.btn' : function () {
+  'click input.toggleLight' : function () {
     roomId = Session.get('currentRoomId');
     room = Rooms.findOne({roomId:roomId},{});
     Rooms.update(room._id,{$push: {"actions": {name: 'toggleLight'}}});
+  },
+  'click input.vimeo' : function () {
+    roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    Rooms.update(room._id,{$push: {"actions": {name: 'youtubeVideo', query: $('input.query').val()}}});
   }
 });
 
+function getYtbVid(url) {
+    var ytb_regexpr = new RegExp('(?:youtube\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})', "i" );
+    ytb_regexpr = url.match(ytb_regexpr);
+    var ytb_vid = ytb_regexpr[1];
+    return ytb_vid;
+}
+
 printAction = function () {
 
-  if(Session.get('isViewer')) {
+  // now = (new Date().getTime() / 1000);
+  // diff = (Math.floor(now - Session.get('dateRoomEntered')));
+  // console.log(diff);
+  // if(diff > 5) {
+
+    if(Session.get('isViewer')) {
+
       roomId = Session.get('currentRoomId');
-    room = Rooms.findOne({roomId:roomId},{});
-    if(typeof room != 'undefined') {
-      lastAction = room.actions.pop();
-      console.log(lastAction);
-      if(lastAction.name == 'toggleLight') {
-        if($('body').css('background-color') == 'rgb(0, 0, 0)')
-          $('body').css('background-color','white');
-        else
-          $('body').css('background-color','black');
+      room = Rooms.findOne({roomId:roomId},{});
+      if(typeof room != 'undefined') {
+        lastAction = room.actions.pop();
+        // console.log(lastAction);
+
+        if(typeof lastAction != 'undefined') {
+
+          if(lastAction.name == 'toggleLight') {
+            if($('body').css('background-color') == 'rgb(0, 0, 0)')
+              $('body').css('background-color','white');
+            else
+              $('body').css('background-color','black');
+          }
+          else if(lastAction.name == 'youtubeVideo') {
+            // console.log(lastAction.query);
+            Meteor.call('youtube', {query: lastAction.query}, function(err, result) {
+              console.log('youtube call done! '+err+' - '+result);
+              ytbId = getYtbVid(result.data.feed.entry[0].content.src);
+              if(typeof ytbId != 'undefined' && ytbId !== '')
+                $('div#media').html('<iframe width="420" height="315" src="http://www.youtube.com/embed/'+ytbId+'?&autoplay=1" frameborder="0" allowfullscreen></iframe>');
+            });
+          }
+
+        }
+
+
       }
     }
-  }
+
+  // }
 
 };
 

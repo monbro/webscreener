@@ -12,6 +12,26 @@ var isUserOnline = function(userId) {
   });
 };
 
+function garbageCollectorActions() {
+  rooms = Rooms.find({},{}).fetch();
+
+  rooms.foreach( function( k, v ) {
+
+    // just reset all actions
+    Rooms.update(v._id, {$set: {actions: []}});
+
+    // aL = v.actions.length;
+    // v.actions.foreach( function( a, b ) {
+    //   console.log('donot: '+(aL-1));
+    //   if(a != (aL-1) && a != (aL-2) && a != (aL-3)) {
+    //     console.log('remove '+a);
+    //     Rooms.update(v._id,{$pull: {"actions": {name: b.name}}});
+    //   }
+    // });
+
+  });
+}
+
 function checkUserAlive() {
   // users = Users.find({},{});
   rooms = Rooms.find({},{}).fetch();
@@ -20,7 +40,7 @@ function checkUserAlive() {
     // console.log(v.users);
     v.users.foreach( function( a, b ) {
       if(isUserOnline(b.name)) {
-        console.log(b.name+' is alive!');
+        // console.log(b.name+' is alive!');
       }
       else {
         // remove User from List
@@ -47,11 +67,31 @@ Meteor.startup(function () {
     checkUserAlive();
   }, 2000 );
 
+  Meteor.setInterval( function () {
+    garbageCollectorActions();
+  }, 10000 );
+
   // Meteor.methods({
   //   keepalive: function (params) {
   //     console.log(params);
   //     console.log(isUserOnline(params.userId));
   //   }
   // });
+
+  Meteor.methods({
+    youtube: function (params) {
+      // check(userId, String);
+      this.unblock();
+      var result = Meteor.http.call("GET", "http://gdata.youtube.com/feeds/api/videos?alt=json&v=2&q="+encodeURIComponent(params.query),
+        {params: {}});
+      if (result.statusCode === 200) {
+        return result;
+      }
+      else
+        return false;
+    }
+  });
+
+//http://gdata.youtube.com/feeds/api/videos?q=michael%20jackson%20thriller&alt=json&v=2
 
 });

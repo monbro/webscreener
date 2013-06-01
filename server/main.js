@@ -47,18 +47,19 @@ function garbageCollectorRooms() {
 
 
 
-function checkUserAlive() {
-  // users = Users.find({},{});
+function garbageCollectorUser() {
   rooms = Rooms.find({},{}).fetch();
 
+  // Loop all rooms
   rooms.foreach( function( k, v ) {
-    // console.log(v.users);
+    // Loop all users of current room
     v.users.foreach( function( a, b ) {
       if(isUserOnline(b.name)) {
         // console.log(b.name+' is alive!');
       }
       else {
         // remove User from List
+        console.log(b.name+' to be removed!');
         Rooms.update(v._id,{$pull: {"users": {name: b.name}}});
       }
     });
@@ -78,7 +79,7 @@ Meteor.startup(function () {
   // }
 
   Meteor.setInterval( function () {
-    checkUserAlive();
+    garbageCollectorUser();
   }, 2000 );
 
   Meteor.setInterval( function () {
@@ -119,6 +120,6 @@ Meteor.startup(function () {
     }
   });
 
-//http://gdata.youtube.com/feeds/api/videos?q=michael%20jackson%20thriller&alt=json&v=2
+  //http://gdata.youtube.com/feeds/api/videos?q=michael%20jackson%20thriller&alt=json&v=2
 
 });

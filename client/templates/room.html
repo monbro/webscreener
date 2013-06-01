@@ -1,33 +1,59 @@
 <template name="room">
   Hi, this is Room!<br />
-  You are User {{currentUserId}} in this Room!
+
   {{#if loading}}
     <div id="lists">Loading...</div>
   {{else}}
-    <div>--> {{room.roomId}} with {{room.users.length}} Users</div>
+
+    {{#if isDebug}}
+      You are User {{currentUserId}} in this Room!
+      <div>
+        Room {{room.roomId}} has {{room.users.length}} Users currently.
+      </div>
+    {{/if}}
+
     <div>
       <br />
       {{#if isViewer}}
-        <div><strong>You are Viewer!!</strong></div>
-      {{else}}
-        <div><strong>You are Controller!!</strong>
-        <input type="button" class="btn toggleLight" value="Toggle Action" /></div>
         <div>
-          <input class="query" type="text" /><input type="button" class="btn vimeo" value="Go" /></div>
+          <strong>This Room is not valid anymore!</strong>
+        </div>
+      {{else}}
+        <div>
+          <strong>Hello Remote-Fanboy</strong>
+        </div>
+        <div class="row-fluid">
+          <div class="span4">
+            <div command="toggleLight" class="btn btn-large">Toggle Light</div>
+            <div command="togglePlay" class="btn btn-large">Play / Pause</div>
+            <div command="toggleFullscreen" class="btn btn-large">Toggle Fullscreen</div>
+          </div>
+          <div class="span4">
+          </div>
+          {{#if isDebug}}
+            <div class="span4">Search Youtube Video
+              <input class="query" type="text" />
+              <div command="youtubeSearch" class="btn">Go</div>
+            </div>
+          {{/if}}
         </div>
       {{/if}}
-      <br />
     </div>
-    {{#if room.users}}
-    <div>
-      <ul>Userlist:
-        {{#each room.users}}
-        <li class="list">
-          {{name}}
-        </li>
-        {{/each}}
-      </ul>
-    </div>
+
+    {{#if isDebug}}
+      {{#if room.users}}
+        <br />
+        <div>
+          <ul>Userlist:
+            {{#each room.users}}
+            <li class="list">
+              {{name}}
+            </li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
     {{/if}}
+
   {{/if}}
 </template>

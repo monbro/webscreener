@@ -3,12 +3,16 @@
   {{#if loading}}
   <div id="lists">Loading...</div>
   {{else}}
-  <ul id="lists">
-    {{#each rooms}}
-      <li class="list">
-            <a href="{{roomPath}}{{roomId}}">{{name}} - {{roomId}}</a>
-      </li>
-    {{/each}}
-  </ul>
+
+  {{#if isDebug}}
+    <ul id="lists">
+      {{#each rooms}}
+        <li class="list">
+              <a href="{{roomPath}}{{roomId}}">{{name}} - {{roomId}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
   {{/if}}
 </template>

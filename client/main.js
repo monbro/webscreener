@@ -29,12 +29,22 @@ Template.rooms.rooms = function () {
 };
 
 Template.room.events({
-  'click input.toggleLight' : function () {
+  'click .btn[command=togglePlay]' : function () {
+    roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    Rooms.update(room._id,{$push: {"actions": {name: 'togglePlay'}}});
+  },
+  'click .btn[command=toggleFullscreen]' : function () {
+    roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    Rooms.update(room._id,{$push: {"actions": {name: 'toggleFullscreen'}}});
+  },
+  'click .btn[command=toggleLight]' : function () {
     roomId = Session.get('currentRoomId');
     room = Rooms.findOne({roomId:roomId},{});
     Rooms.update(room._id,{$push: {"actions": {name: 'toggleLight'}}});
   },
-  'click input.vimeo' : function () {
+  'click .btn[command=youtubeSearch]' : function () {
     roomId = Session.get('currentRoomId');
     room = Rooms.findOne({roomId:roomId},{});
     Rooms.update(room._id,{$push: {"actions": {name: 'youtubeVideo', query: $('input.query').val()}}});
@@ -96,6 +106,20 @@ Deps.autorun(printAction);
 Template.room.room = function() {
   roomId = Session.get('currentRoomId');
   room = Rooms.findOne({roomId:roomId},{});
+
+  if(typeof room == 'undefined') {
+    Meteor.call('roomenter', {roomId: roomId}, function(err, result) {
+      console.log('room Added!');
+      return roomHelper(roomId);
+    });
+  }
+  else {
+    return roomHelper(roomId);
+  }
+};
+
+roomHelper = function(roomId) {
+
   // customUserName = 'admin3';
   customUserName = Session.get('currentUserId');
 
@@ -168,6 +192,12 @@ Handlebars.registerHelper('isViewer',function(input){
   return Session.get("isViewer");
 });
 
+Handlebars.registerHelper('isDebug',function(input){
+  return Session.get("isDebug");
+});
+
+
+
 // Handlebars.registerHelper("navClassFor", function (nav, options) {
 //   return Meteor.router.navEquals(nav) ? "active" : "";
 // });
@@ -187,6 +217,9 @@ Meteor.startup(function () {
   //   Accounts._makeClientLoggedIn(result.id, result.token);
   //   // fn && fn();
   // });
+
+  // Display Debug Information
+  Session.set('isDebug', false);
 
   Meteor.call('login', {anonymous: true}, function(err, result) {
     Accounts._makeClientLoggedIn(result.id, result.token);

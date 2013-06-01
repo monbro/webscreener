@@ -8,3 +8,5 @@ router
 bootstrap
 accounts-base
 http
+stylus
+font-awesome

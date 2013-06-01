@@ -10,7 +10,8 @@
       "accounts-anonymous": {
         "git": "https://github.com/rissem/meteor-accounts-anonymous",
         "branch": "master"
-      }
+      },
+      "font-awesome": {}
     },
     "packages": {
       "router": {
@@ -22,6 +23,11 @@
         "git": "https://github.com/rissem/meteor-accounts-anonymous",
         "branch": "master",
         "commit": "36f94a7909b0a09e4eb6782bdc316ced96eb4ca4"
+      },
+      "font-awesome": {
+        "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
+        "tag": "v0.1.6",
+        "commit": "f0f7bde5b60f3ceae69e11fa545bdbf8a8cf2d03"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

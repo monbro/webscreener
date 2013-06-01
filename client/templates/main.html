@@ -1,20 +1,33 @@
 <head>
-  <title>webscreener2</title>
+  <title>Webscreener</title>
 </head>
 
 <body>
-  <div class="navbar">
-    <div class="navbar-inner">
-      <a class="brand" href="#">Pages</a>
-      <ul class="nav">
-        <li class="{{navClassFor 'home'}}"><a href="{{rootPath}}">Home</a></li>
-        <li class="{{navClassFor 'secret'}}"><a href="{{secretPath}}">Secret</a></li>
-        <li><a href="{{newsPath}}">News</a></li>
-        <li><a href="/boguspath">Bogus Path</a></li>
-      </ul>
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+     <div class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="#">Webscreener</a>
+        <ul class="nav">
+          <li class="{{navClassFor 'home'}}"><a href="{{rootPath}}">Home</a></li>
+          <li><a href="{{newsPath}}">News</a></li>
+          <li><a href="/boguspath">Bogus Path</a></li>
+        </ul>
+        <a class="git pull-right" target="_blank" href="https://github.com/monbro/webscreener" class="pull-left"><i class="icon-large icon-github-sign"></i></a>
+      </div>
+    </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span8">
+        {{renderPage}}
+      </div>
+      <div class="span4">
+        <!--Sidebar content-->
+        <div id="media">
+        </div>
+      </div>
     </div>
   </div>
-  {{renderPage}}
-  <div id="media">
-  </div>
+
 </body>

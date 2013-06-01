@@ -1,3 +1,19 @@
+How To Try:
+
+1. Download Chrome-Extension-File from /public/chrome_extension.crx or load the unpacked from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
+
+2. Activate the extension if it isnt and go to a new Vimeo-Video-Subpage like https://vimeo.com/64448741
+
+3. In the top right corner will show up a URL, open the url in any device with internet connection
+
+4. Try the available command buttons to remote-control this vimeo subpage.
+
+
+------
+
+
+Development Notes:
+
 Using a basic structure
 
 Working with custom MongoDB [export MONGO_URL='mongodb://localhost:27017/webscreener]
@@ -24,3 +40,15 @@ Using a Chrome Extension http://developer.chrome.com/extensions/getstarted.html
 Helpful
 
 http://stackoverflow.com/questions/13504324/where-can-we-host-meteor-meteorite-applications
+
+To run another portuse "mrt --port 5000"
+
+2do:
+
+Datatype check on chrome extension side (when receiving data from server)
+
+Datatype check on server side (when receiving data from clients)
+
+Make always connection from Chrome Extension as Viewer per default
+
+Close all remote controll connections if Viewer is dead?

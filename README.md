@@ -10,7 +10,7 @@ How To Try:
 
 If successful it should look like 
 
-![Image](//dl.dropboxusercontent.com/u/45446322/webscreener_example.png)
+![Image](https://dl.dropboxusercontent.com/u/45446322/webscreener_example.png)
 
 
 ------

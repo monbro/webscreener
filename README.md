@@ -8,6 +8,10 @@ How To Try:
 
 4. Try the available command buttons to remote-control this vimeo subpage.
 
+If successful it should look like 
+
+![Image](//dl.dropboxusercontent.com/u/45446322/webscreener_example.png)
+
 
 ------
 

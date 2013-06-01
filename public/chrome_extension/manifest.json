@@ -22,7 +22,8 @@
   },
   "content_scripts": [  {
       "matches": [
-          "https://vimeo.com/*"
+          "https://vimeo.com/*",
+          "http://vimeo.com/*"
           ],
       "js": [
           "jquery.min.js",

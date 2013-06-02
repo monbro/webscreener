@@ -1,5 +1,5 @@
 # Webscreener
-Currently a chrome extension which will allow you to remote control any website trough an automatic generated interface.
+Currently a chrome extension which will allow you nearly real time remote control of any website trough an automatic generated interface.
 
 ## Description
 Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control.

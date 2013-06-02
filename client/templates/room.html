@@ -29,6 +29,15 @@
             <div command="toggleFullscreen" class="btn btn-large">Toggle Fullscreen</div>
           </div>
           <div class="span4">
+            <ul>
+              {{#each room.listener}}
+              <li class="list">
+                Name: {{name}}, Classes: {{classes}} <div xpath="{{xpath}}" class="btn push listener">Push</div>
+              </li>
+              {{/each}}
+            </ul>
+          </div>
+          <div class="span4">
           </div>
           {{#if isDebug}}
             <div class="span4">Search Youtube Video

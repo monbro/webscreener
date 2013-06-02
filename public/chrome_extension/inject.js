@@ -18,6 +18,8 @@
 
 // console.log('Inject: IAM here'); // works
 
+msgCounter = 1;
+
 getRandomHash = function() {
   var hash, uuid;
   uuid = new Hashids(window.uuid.v4());
@@ -29,22 +31,221 @@ var hash = getRandomHash();
 
 // Generate our very random hash code
 
+$('body').prepend('<div class="webscreener"></div>');
+$('body').prepend('<div class="webscreeneropener btn">open</div>');
+wrapper = $('.webscreener');
+wrapper.append('<div class="topbar row-fluid"></div>');
+topbar = $('.webscreener .topbar');
+wrapper.append('<div class="info row-fluid"></div>');
+info = $('.webscreener .info');
+info.append('<div class="span6 listenerinfo"><ul><li class="name">Name: <span></span></li><li class="classes">Classes: <span></span></li><li class="xpath">Xpath: <span></span></li></ul></div>');
+
+topbar.append('<div class="span4"><div class="btn slideup">close</div> <div class="btn selectlistener">select Listener</div> <div class="btn addlistener">add Listener</div></div>');
+topbar.append('<div class="span4"><h2>Webscreener</h2><h6>Remote-Control for any website</h6></div>');
+
+wrapper.find('.slideup').on('click', function() {
+  wrapper.slideUp('fast', function() {
+    $('.webscreeneropener').fadeIn();
+  });
+});
+
+
+var cancelHelper = function() {
+  if(!$selectListener) {
+    wrapper.find('.selectlistener').html('cancel');
+  }
+  else {
+    wrapper.find('.selectlistener').html('select Listener');
+  }
+  $selectListener = !$selectListener;
+};
+
+wrapper.find('.selectlistener').on('click', function() {
+  cancelHelper();
+});
+
+wrapper.find('.addlistener').on('click', function() {
+
+  cancelHelper();
+
+  if(typeof sock != 'undefined') {
+    var name = info.find('.listenerinfo .name span').html();
+    var classes = info.find('.listenerinfo .classes span').html();
+    // var xpath = info.find('.listenerinfo .xpath span').html();
+    var xpath = $lastClickedElement;
+    sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"listener\":{\"name\":\""+name+"\",\"classes\":\""+classes+"\",\"xpath\":\""+xpath+"\"}}}],\"id\":\""+msgCounter+"\"}");
+    msgCounter++;
+  }
+});
+
+$('.webscreeneropener').on('click', function() {
+  $('.webscreeneropener').hide();
+  wrapper.slideDown('fast');
+});
+
+function getXPath( element )
+{
+    var xpath = '';
+    for ( ; element && element.nodeType == 1; element = element.parentNode )
+    {
+        var id = $(element.parentNode).children(element.tagName).index(element) + 1;
+        id > 1 ? (id = '[' + id + ']') : (id = '');
+        xpath = '/' + element.tagName.toLowerCase() + id + xpath;
+    }
+    return xpath;
+}
+
+// http://stackoverflow.com/questions/4284086/using-xpath-to-select-elements-in-jquery
+(function($) {
+    $.xpath = function(exp, ctxt) {
+        var item, coll = [],
+            result = document.evaluate(exp, ctxt || document, null, 5, null);
+
+        // while (item = result.iterateNext())
+        //     coll.push(item);
+
+        // return $(coll);
+
+        // edited:
+        while (item = result.iterateNext())
+          return item;
+    };
+})(jQuery);
+
+/* jQuery Extensions  get XSS Path as String
+ * form radiozeug bundle
+************************************/
+jQuery.fn.getPath = function () {
+  if (this.length != 1) {throw 'Requires one element.';}
+
+  var path, node = this;
+  while (node.length) {
+    var realNode = node[0], name = realNode.localName;
+    if (!name) break;
+    name = name.toLowerCase();
+
+    var parent = node.parent();
+
+    var siblings = parent.children(name);
+    if (siblings.length > 1) { 
+      name += ':eq(' + siblings.index(realNode) + ')';
+    }
+
+    path = name + (path ? '>' + path : '');
+    node = parent;
+  }
+
+  return path;
+};
+
+$(function(){
+
+  var last_element = null;
+  $selectListener = false;
+
+  $("body *").on("click", function(event){
+
+    if($selectListener) {
+      // for control only
+      // $(this).on('click', function() {
+      //  console.log("clicked the xpath item");
+      // });
+
+      // prevent default action
+      event.preventDefault();
+      console.log('prevent success!');
+
+      // $(this).trigger('click');
+
+      if($(this).html() === '' || typeof $(this).html() == 'undefined')
+        info.find('.listenerinfo .name span').html($(this).val());
+      else
+        info.find('.listenerinfo .name span').html($(this).html());
+      if($(this).attr('class') === '' || typeof $(this).attr('class') == 'undefined')
+        info.find('.listenerinfo .classes span').html('');
+      else
+        info.find('.listenerinfo .classes span').html($(this).attr('class'));
+
+      $lastClickedElement = $(this).getPath();
+
+      info.find('.listenerinfo .xpath span').html($lastClickedElement);
+
+      // var is_different_elem = $(this)[0] != $(last_element)[0];
+      // if (last_element === null || is_different_elem || $(".dialogs").length === 0) {
+      //   // $(".dialogs").remove();
+      //   // $(this).append("<div class='inspect_dialog dialogs'></div>");
+      //   var element = $(this).get(0).tagName.toLowerCase();
+
+      //   var id = $(this).attr("id");
+      //   if (id)
+      //     id = "#"+id;
+      //   else
+      //     id = "";
+
+      //     var klass = $(this).attr("class"); // TODO: multiple classes support
+      //     if (klass)
+      //       klass = "."+klass.replace(/\s*inspect_dh_hover/, '');
+      //     else
+      //       klass = "";
+
+      //     var infos = "element: "+element+id+klass;
+      //     // console.log(infos); // 2do multiple elements stuff?
+      //     // $(".inspect_dialog").html(infos).show();
+      //     info.find('.listenerinfo').html(infos);
+      // }
+      // else {
+      //   // $(".dialogs").remove();
+      // }
+      // last_element = this;
+      return false;
+    }
+    else {
+      // do nothing
+    }
+
+  });
+
+  // $("body *").hover(function(){
+  //   if($selectListener) {
+  //     if($(this).parents('.webscreener').length && !$(this).hasClass('webscreener')) {
+  //       return false;
+  //     }
+  //     $(this).addClass("inspect_dh_hover");
+  //     // $(this).width($(this).width()-2).height($(this).height()-2);
+  //   }
+  // }, function(){
+  //   if($selectListener) {
+  //     if($(this).parents('.webscreener').length && !$(this).hasClass('webscreener')) {
+  //       return false;
+  //     }
+
+  //     // $(".dialogs").remove();
+  //     $(this).removeClass("inspect_dh_hover");
+  //     // $(this).width($(this).width()+2).height($(this).height()+2);
+  //   }
+  // });
+
+
+});
+
+
 
 // $('body').html('Whoops!');
 // console.log($('.vimeo_holder .player button.as.av').html());
 
 // $('.vimeo_holder .player button.as.av').trigger('click'); // works
 
-// var domain = 'http://localhost/';
-var domain = 'https://ddp--4145-webscreener.meteor.com/';
+var domain = 'http://localhost/';
+// var domain = 'https://ddp--4145-webscreener.meteor.com/';
 
 var sock;
 
 new_conn = function() {
 
   sock = new SockJS(domain+'sockjs');
+
   sock.onopen = function() {
-   console.log('open');
+   console.log('socket opened');
    // 
   };
   sock.onmessage = function(e) {
@@ -59,11 +260,14 @@ new_conn = function() {
         // sock.send("{\"msg\":\"sub\",\"id\":\"zW7SXSqyvaRweRaC3\",\"name\":\"rooms\",\"params\":[]}");
 
         if(typeof userToken != 'undefined') {
-          sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"resume\":\""+userToken+"\"}],\"id\":\"1\"}");
+          sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"resume\":\""+userToken+"\"}],\"id\":\""+msgCounter+"\"}");
+
         }
         else {
           // sock.send("{\"msg\":\"method\",\"method\":\"login\",\"id\":\"1\"}");
         }
+
+        msgCounter++;
 
         collectionLoginServicesHash = getRandomHash();
         sock.send("{\"msg\":\"sub\",\"id\":\""+collectionLoginServicesHash+"\",\"name\":\"meteor.loginServiceConfiguration\",\"params\":[]}");
@@ -72,8 +276,8 @@ new_conn = function() {
         sock.send("{\"msg\":\"sub\",\"id\":\""+collectionRoomsHash+"\",\"name\":\"rooms\",\"params\":[]}");
 
         // Login as anonymous
-        sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"anonymous\":true}],\"id\":\"2\"}");
-
+        sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"anonymous\":true}],\"id\":\""+msgCounter+"\"}");
+        msgCounter++;
       }
       else if(typeof obj.msg != 'undefined') {
 
@@ -85,25 +289,27 @@ new_conn = function() {
             now = new Date().getTime();
 
             // open new room
-            sock.send("{\"msg\":\"method\",\"method\":\"roomenter\",\"params\":[{\"roomId\":\""+hash+"\"}],\"id\":\"3\"}");
+            sock.send("{\"msg\":\"method\",\"method\":\"roomenter\",\"params\":[{\"roomId\":\""+hash+"\"}],\"id\":\""+msgCounter+"\"}");
+            msgCounter++;
           }
           else if(obj.id == 3) {
             roomInsertId = obj.result;
-            sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"users\":{\"name\":\""+userId+"\",\"touch\":{\"$date\":"+now+"}}}}],\"id\":\"4\"}");
+            sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"users\":{\"name\":\""+userId+"\",\"touch\":{\"$date\":"+now+"}}}}],\"id\":\""+msgCounter+"\"}");
+            msgCounter++;
           }
           else if(obj.id == 4) {
-            $('div#webscreener-url-announce').remove();
-            $('body').append('<div id="webscreener-url-announce" style="z-index:9999;position:fixed;top:0;right:0;padding:30px;background:rgba(0,0,0,0.85);display:none;">Try from any device:<br /><a target="_blank" href="'+domain+'room/'+hash+'/" style="color:white;">'+domain+hash+'</a></div>');
-            $('div#webscreener-url-announce').fadeIn();
+            $('div.url-container').remove();
+            topbar.append('<div class="span4"><div class="url-container">Try from any device:<br /><a class="url" target="_blank" href="'+domain+'room/'+hash+'/">'+domain+hash+'</a></div></div>');
+            $('div.url-container').fadeIn();
           }
         }
         else if(obj.msg == "changed") {
           if(obj.collection == "rooms" && obj.id == roomInsertId) {
             // if(obj.fields.actions[0].name)
             if(typeof obj.fields.actions != 'undefined' && obj.fields.actions.length !== 0) {
-
-              command = obj.fields.actions.pop().name;
-              console.log(command);
+              lastItem = obj.fields.actions.pop();
+              command = lastItem.name;
+              console.log("do command: "+command);
               if(command == "toggleLight") {
                 if($('body').css('background-color') == 'rgb(0, 0, 0)')
                   $('body').css('background-color','white');
@@ -115,6 +321,24 @@ new_conn = function() {
               }
               else if(command == "toggleFullscreen") {
                 $('.vimeo_holder .player .h.av .s canvas').trigger('click');
+              }
+              else if(command == "xpath") {
+                var xpath = lastItem.xpath;
+                // console.log("do it on xpath: "+xpath);
+                // $(xpath).trigger('click');
+                                      // var item = $.xpath(xpath);
+                // console.log(item);
+                // console.log($(item));
+
+                // $(item).trigger('click'); // seems to work !! but not on a elements, but on canvas play button?
+
+                xpathItem = $(xpath);
+                xpathItem.trigger('click');
+
+                if(xpathItem.is("a")) {
+                  window.location.href = xpathItem.attr('href');
+                }
+
               }
             }
           }
@@ -131,10 +355,8 @@ new_conn = function() {
 new_conn();
 
 sock.onclose = function() {
- console.log('close');
- $('div#webscreener-url-announce').remove();
- $('body').append('<div id="webscreener-url-announce" style="z-index:9999;position:fixed;top:0;right:0;padding:30px;background:rgba(0,0,0,0.85);display:none;">Connection lost ... please Reaload!</div>');
- $('div#webscreener-url-announce').fadeIn();
+ console.log('socket closed');
+ topbar.find('.url-container .url').html('Connection lost ... please Reaload!');
  // setTimeout(new_conn, 10);
  // new_conn();
 };

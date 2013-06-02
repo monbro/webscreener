@@ -1,0 +1,50 @@
+@import "compass/css3";
+
+html body .webscreener {
+
+  @include opacity(0.95);
+  position: fixed;
+  z-index: 9990;
+  top: 0;
+  width: 100%;
+  background: #363636;
+  border-bottom: 4px solid lightgrey;
+  color: #fff;
+  padding: 25px;
+
+  .topbar {
+    h1, h2, h3, h4, h5, h6 {
+      color: #fff;
+    }
+    
+  }
+
+  .url-container {
+    display:none;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+}
+
+html body .webscreeneropener {
+  display: none;
+  position: fixed;
+  z-index: 9990;
+  top: 0;
+  left: 30px;
+  @include border-top-radius(0);
+  color: #fff;
+}
+
+
+
+/* Experimental starts here */
+
+html body .inspect_dh_hover {
+  color: lightblue !important;
+  background: lightblue !important;
+}

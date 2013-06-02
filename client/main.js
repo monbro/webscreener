@@ -48,6 +48,12 @@ Template.room.events({
     roomId = Session.get('currentRoomId');
     room = Rooms.findOne({roomId:roomId},{});
     Rooms.update(room._id,{$push: {"actions": {name: 'youtubeVideo', query: $('input.query').val()}}});
+  },
+  'click .btn.push.listener' : function () {
+    roomId = Session.get('currentRoomId');
+    room = Rooms.findOne({roomId:roomId},{});
+    console.log($(this).attr('xpath'));
+    Rooms.update(room._id,{$push: {"actions": {name: 'xpath', xpath: $(this).attr('xpath')}}});
   }
 });
 

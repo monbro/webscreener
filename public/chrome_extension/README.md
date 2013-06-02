@@ -30,3 +30,9 @@ http://stackoverflow.com/questions/8758685/get-dom-element-from-jquery-plugin-ex
 http://www.jefvlamings.com/blog/chrome-extensions-for-dummies/
 
 https://github.com/sockjs/sockjs-client
+
+
+
+DOM Highligher Helpful
+
+http://uploads.makevoid.com/jquery_dom_highlighter.html or https://gist.github.com/monbro/5693298

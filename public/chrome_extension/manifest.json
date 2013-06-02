@@ -12,11 +12,15 @@
   "permissions": [
     "https://secure.flickr.com/",
     "http://localhost/*",
-    "tabs", "http://webregard.de/*"
+    "tabs", "https://vimeo.com/*"
+  ],
+  "web_accessible_resources": [
+      "css/style.css",
+      "css/bootstrap-combined.min.css"
   ],
   "background": {
       "scripts": [
-          "jquery.min.js",
+          "lib/jquery.min.js",
           "background.js"
           ]
   },
@@ -25,11 +29,15 @@
           "https://vimeo.com/*",
           "http://vimeo.com/*"
           ],
+      "css": [
+          "css/bootstrap-combined.min.css",
+          "css/style.css"
+          ],
       "js": [
-          "jquery.min.js",
-          "sockjs-0.3.min.js",
-          "hashids.js",
-          "uuid.js",
+          "lib/jquery.min.js",
+          "lib/sockjs-0.3.min.js",
+          "lib/hashids.js",
+          "lib/uuid.js",
           "inject.js"
           ]
     }

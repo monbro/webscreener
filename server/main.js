@@ -27,7 +27,7 @@ function garbageCollectorActions() {
     //     console.log('remove '+a);
     //     Rooms.update(v._id,{$pull: {"actions": {name: b.name}}});
     //   }
-    // });
+    // }); 
 
   });
 }
@@ -111,7 +111,7 @@ Meteor.startup(function () {
     },
     roomenter: function (params) {
       if (Rooms.find({roomId: params.roomId}).count() === 0) {
-        id = Rooms.insert({name: 'New Room by Chrome Extension', roomId: params.roomId, users: [], actions: []});
+        id = Rooms.insert({name: 'New Room by Chrome Extension', roomId: params.roomId, users: [], actions: [], listener: []});
         return id;
       }
       else {

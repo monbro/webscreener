@@ -1,0 +1,49 @@
+/* line 3, ../scss/style.scss */
+html body .webscreener {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=95);
+  opacity: 0.95;
+  position: fixed;
+  z-index: 9990;
+  top: 0;
+  width: 100%;
+  background: #363636;
+  border-bottom: 4px solid lightgrey;
+  color: #fff;
+  padding: 25px;
+}
+/* line 16, ../scss/style.scss */
+html body .webscreener .topbar h1, html body .webscreener .topbar h2, html body .webscreener .topbar h3, html body .webscreener .topbar h4, html body .webscreener .topbar h5, html body .webscreener .topbar h6 {
+  color: #fff;
+}
+/* line 22, ../scss/style.scss */
+html body .webscreener .url-container {
+  display: none;
+}
+/* line 26, ../scss/style.scss */
+html body .webscreener a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* line 33, ../scss/style.scss */
+html body .webscreeneropener {
+  display: none;
+  position: fixed;
+  z-index: 9990;
+  top: 0;
+  left: 30px;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  color: #fff;
+}
+
+/* Experimental starts here */
+/* line 47, ../scss/style.scss */
+html body .inspect_dh_hover {
+  color: lightblue !important;
+  background: lightblue !important;
+}

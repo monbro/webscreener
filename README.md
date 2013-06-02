@@ -1,18 +1,19 @@
-Description:
+# Webscreener
+Currently a chrome extension which will allow you to remote control any website trough an automatic generated interface.
 
+## Description
 Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control.
 
-Usage:
+## Usage
+* Download Chrome-Extension-File from /public/chrome_extension.crx or load the unpacked from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
 
-1. Download Chrome-Extension-File from /public/chrome_extension.crx or load the unpacked from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
+* Activate the extension if it isnt and go to a new Vimeo-Video-Subpage like https://vimeo.com/64448741
 
-2. Activate the extension if it isnt and go to a new Vimeo-Video-Subpage like https://vimeo.com/64448741
+* In the top right corner will show up a URL, open the url in any device with internet connection
 
-3. In the top right corner will show up a URL, open the url in any device with internet connection
+* Try the available command buttons to remote-control this vimeo subpage.
 
-4. Try the available command buttons to remote-control this vimeo subpage.
-
-5. Try to add Event-Trigger by yourself by
+* Try to add Event-Trigger by yourself by
 
     a) click Button "select Listener" 
     
@@ -24,14 +25,14 @@ If successful it should look like
 
 ![Image](https://dl.dropboxusercontent.com/u/45446322/basic_git.png)
 
-Used technology:
+## Used technology
 
 websockets, node js via meteor, chrome extension system, mongodb
 
+
 ------
 
-
-Development Notes:
+## Development Notes
 
 Using a basic structure
 
@@ -56,13 +57,13 @@ Working with MongoHub.app https://github.com/fotonauts/MongoHub-Mac
 
 Using a Chrome Extension http://developer.chrome.com/extensions/getstarted.html
 
-Helpful
+### Helpful
 
 http://stackoverflow.com/questions/13504324/where-can-we-host-meteor-meteorite-applications
 
 To run another portuse "mrt --port 5000"
 
-2do:
+## To do
 
 Datatype check on chrome extension side (when receiving data from server)
 

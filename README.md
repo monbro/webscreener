@@ -1,4 +1,8 @@
-How To Try:
+Description:
+
+Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control.
+
+Usage:
 
 1. Download Chrome-Extension-File from /public/chrome_extension.crx or load the unpacked from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
 
@@ -11,13 +15,18 @@ How To Try:
 5. Try to add Event-Trigger by yourself by
 
     a) click Button "select Listener" 
+    
     b) click on HTML element 
+    
     c) click Button "add Listener"
 
 If successful it should look like 
 
 ![Image](https://dl.dropboxusercontent.com/u/45446322/basic_git.png)
 
+Used technology:
+
+websockets, node js via meteor, chrome extension system, mongodb
 
 ------
 

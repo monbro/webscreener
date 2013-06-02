@@ -235,8 +235,8 @@ $(function(){
 
 // $('.vimeo_holder .player button.as.av').trigger('click'); // works
 
-var domain = 'http://localhost/';
-// var domain = 'https://ddp--4145-webscreener.meteor.com/';
+// var domain = 'http://localhost/';
+var domain = 'https://ddp--4145-webscreener.meteor.com/';
 
 var sock;
 

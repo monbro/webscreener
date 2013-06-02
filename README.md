@@ -8,9 +8,15 @@ How To Try:
 
 4. Try the available command buttons to remote-control this vimeo subpage.
 
+5. Try to add Event-Trigger by yourself by
+
+    a) click Button "select Listener" 
+    b) click on HTML element 
+    c) click Button "add Listener"
+
 If successful it should look like 
 
-![Image](https://dl.dropboxusercontent.com/u/45446322/webscreener_example.png)
+![Image](https://dl.dropboxusercontent.com/u/45446322/basic_git.png)
 
 
 ------

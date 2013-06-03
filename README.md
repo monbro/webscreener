@@ -1,4 +1,4 @@
-# Webscreener
+# Webscreener (Prototype, Alpha)
 Currently a chrome extension which will allow you nearly real time remote control of any website trough an automatic generated interface.
 
 ## Description

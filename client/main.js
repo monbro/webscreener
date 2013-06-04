@@ -225,7 +225,7 @@ Meteor.startup(function () {
   // });
 
   // Display Debug Information
-  Session.set('isDebug', true);
+  Session.set('isDebug', false);
 
   Meteor.call('login', {anonymous: true}, function(err, result) {
     Accounts._makeClientLoggedIn(result.id, result.token);

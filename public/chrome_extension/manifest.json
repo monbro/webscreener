@@ -38,6 +38,7 @@
           "lib/sockjs-0.3.min.js",
           "lib/hashids.js",
           "lib/uuid.js",
+          "lib/doccookies.js",
           "inject.js"
           ]
     }

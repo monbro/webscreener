@@ -27,7 +27,16 @@ getRandomHash = function() {
   return hash;
 };
 
-var hash = getRandomHash();
+var roomHash;
+
+console.log(docCookies.getItem("roomHash"));
+
+if(docCookies.getItem("roomHash") != null)
+  roomHash = docCookies.getItem("roomHash");
+else {
+  roomHash = getRandomHash();
+  docCookies.setItem("roomHash", roomHash);
+}
 
 // Generate our very random hash code
 
@@ -235,19 +244,34 @@ $(function(){
 
 // $('.vimeo_holder .player button.as.av').trigger('click'); // works
 
-// var domain = 'http://localhost/';
-var domain = 'https://ddp--4145-webscreener.meteor.com/';
+var domain = 'http://localhost/';
+// var domain = 'https://ddp--4145-webscreener.meteor.com/';
 
 var sock;
 
 new_conn = function() {
 
-  sock = new SockJS(domain+'sockjs');
+  sock = new SockJS(domain+'sockjs', null, {'debug': true});
 
   sock.onopen = function() {
    console.log('socket opened');
    // 
   };
+
+  // error after one reconnect socket pipe is not closed (from server?)
+
+  // sock.on('connection', function(conn){
+  //   console.log(" [.] open event received");
+  //   var t = setInterval(function(){
+  //     try{
+  //       conn._session.recv.didClose();
+  //     } catch (x) {}
+  //   }, 15000);
+  //   conn.on('close', function() {
+  //     console.log(" [.] close event received");
+  //     clearInterval(t);
+  //   });
+  // });
   sock.onmessage = function(e) {
     // console.log(e.data);
     obj = jQuery.parseJSON(e.data);
@@ -259,15 +283,25 @@ new_conn = function() {
         // sock.send("{\"msg\":\"sub\",\"id\":\"TBhzNkMbK646ZZcKc\",\"name\":\"meteor.loginServiceConfiguration\",\"params\":[]}");
         // sock.send("{\"msg\":\"sub\",\"id\":\"zW7SXSqyvaRweRaC3\",\"name\":\"rooms\",\"params\":[]}");
 
-        if(typeof userToken != 'undefined') {
-          sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"resume\":\""+userToken+"\"}],\"id\":\""+msgCounter+"\"}");
+        if(docCookies.getItem("userToken") != null)
+          userToken = docCookies.getItem("userToken");
+        else
+          userToken = null;
 
+        // console.log('Last Usertoken:'+userToken);
+
+        if(userToken != null) {
+          sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"resume\":\""+userToken+"\"}],\"id\":\""+msgCounter+"\"}");
         }
         else {
           // sock.send("{\"msg\":\"method\",\"method\":\"login\",\"id\":\"1\"}");
+
+          // Login as anonymous
+          sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"anonymous\":true}],\"id\":\""+msgCounter+"\"}");
         }
 
         msgCounter++;
+
 
         collectionLoginServicesHash = getRandomHash();
         sock.send("{\"msg\":\"sub\",\"id\":\""+collectionLoginServicesHash+"\",\"name\":\"meteor.loginServiceConfiguration\",\"params\":[]}");
@@ -275,31 +309,37 @@ new_conn = function() {
         collectionRoomsHash = getRandomHash();
         sock.send("{\"msg\":\"sub\",\"id\":\""+collectionRoomsHash+"\",\"name\":\"rooms\",\"params\":[]}");
 
-        // Login as anonymous
-        sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"anonymous\":true}],\"id\":\""+msgCounter+"\"}");
-        msgCounter++;
       }
       else if(typeof obj.msg != 'undefined') {
 
         if(obj.msg == "result") {
-          if(obj.id == 2) {
+          if(obj.id == 1) {
             console.log('Got User / Login Ident: '+obj.result.id);
             userId = obj.result.id;
             userToken = obj.result.token;
+            docCookies.setItem("userToken", userToken);
             now = new Date().getTime();
 
             // open new room
-            sock.send("{\"msg\":\"method\",\"method\":\"roomenter\",\"params\":[{\"roomId\":\""+hash+"\"}],\"id\":\""+msgCounter+"\"}");
+            sock.send("{\"msg\":\"method\",\"method\":\"roomenter\",\"params\":[{\"roomId\":\""+roomHash+"\"}],\"id\":\""+msgCounter+"\"}");
             msgCounter++;
+          }
+          else if(obj.id == 2) {
+            if(obj.result === false) {
+              roomInsertId = docCookies.getItem("roomInsertId");
+              sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"users\":{\"name\":\""+userId+"\",\"touch\":{\"$date\":"+now+"}}}}],\"id\":\""+msgCounter+"\"}");
+              msgCounter++;
+            }
+            else {
+              roomInsertId = obj.result;
+              docCookies.setItem("roomInsertId", roomInsertId);
+              sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"users\":{\"name\":\""+userId+"\",\"touch\":{\"$date\":"+now+"}}}}],\"id\":\""+msgCounter+"\"}");
+              msgCounter++;
+            }
           }
           else if(obj.id == 3) {
-            roomInsertId = obj.result;
-            sock.send("{\"msg\":\"method\",\"method\":\"/rooms/update\",\"params\":[{\"_id\":\""+roomInsertId+"\"},{\"$push\":{\"users\":{\"name\":\""+userId+"\",\"touch\":{\"$date\":"+now+"}}}}],\"id\":\""+msgCounter+"\"}");
-            msgCounter++;
-          }
-          else if(obj.id == 4) {
             $('div.url-container').remove();
-            topbar.append('<div class="span4"><div class="url-container">Try from any device:<br /><a class="url" target="_blank" href="'+domain+'room/'+hash+'/">'+domain+hash+'</a></div></div>');
+            topbar.append('<div class="span4 url-container">Try from any device:<br /><a class="url" target="_blank" href="'+domain+'room/'+roomHash+'/">'+domain+roomHash+'</a></div>');
             $('div.url-container').fadeIn();
           }
         }
@@ -356,8 +396,9 @@ new_conn();
 
 sock.onclose = function() {
  console.log('socket closed');
- topbar.find('.url-container .url').html('Connection lost ... please Reaload!');
- // setTimeout(new_conn, 10);
+ topbar.find('.url-container .url').html('Connection lost ... trying to reconnect!');
+ msgCounter = 1;
+ setTimeout(new_conn, 1000);
  // new_conn();
 };
 

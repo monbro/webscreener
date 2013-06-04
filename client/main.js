@@ -107,7 +107,7 @@ printAction = function () {
 
 };
 
-Deps.autorun(printAction);
+// Deps.autorun(printAction);
 
 Template.room.room = function() {
   roomId = Session.get('currentRoomId');
@@ -137,7 +137,7 @@ roomHelper = function(roomId) {
 
   now = new Date();
 
-  if(typeof room.users[0] != 'undefined' && room.users[0].name == customUserName) {
+  if(typeof room.users[1] == 'undefined') {
     Session.set('isViewer', true);
   }
   else {
@@ -225,7 +225,7 @@ Meteor.startup(function () {
   // });
 
   // Display Debug Information
-  Session.set('isDebug', false);
+  Session.set('isDebug', true);
 
   Meteor.call('login', {anonymous: true}, function(err, result) {
     Accounts._makeClientLoggedIn(result.id, result.token);

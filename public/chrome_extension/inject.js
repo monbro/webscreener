@@ -31,7 +31,7 @@ var roomHash;
 
 console.log(docCookies.getItem("roomHash"));
 
-if(docCookies.getItem("roomHash") != null)
+if(docCookies.getItem("roomHash") !== null && docCookies.getItem("roomHash") != 'null')
   roomHash = docCookies.getItem("roomHash");
 else {
   roomHash = getRandomHash();
@@ -49,7 +49,7 @@ wrapper.append('<div class="info row-fluid"></div>');
 info = $('.webscreener .info');
 info.append('<div class="span6 listenerinfo"><ul><li class="name">Name: <span></span></li><li class="classes">Classes: <span></span></li><li class="xpath">Xpath: <span></span></li></ul></div>');
 
-topbar.append('<div class="span4"><div class="btn slideup">close</div> <div class="btn selectlistener">select Listener</div> <div class="btn addlistener">add Listener</div></div>');
+topbar.append('<div class="span4"><div class="btn slideup">close</div> <div class="btn selectlistener">select Listener</div> <div class="btn addlistener">add Listener</div> <div class="btn newRoom">new Room</div></div>');
 topbar.append('<div class="span4"><h2>Webscreener</h2><h6>Remote-Control for any website</h6></div>');
 
 wrapper.find('.slideup').on('click', function() {
@@ -71,6 +71,15 @@ var cancelHelper = function() {
 
 wrapper.find('.selectlistener').on('click', function() {
   cancelHelper();
+});
+
+wrapper.find('.newRoom').on('click', function() {
+  // destroy session
+  docCookies.setItem("userToken", null);
+  docCookies.setItem("roomInsertId", null);
+  docCookies.setItem("roomHash", null);
+  // reload page
+  window.location.reload();
 });
 
 wrapper.find('.addlistener').on('click', function() {
@@ -282,11 +291,12 @@ new_conn = function() {
         // sock.send("{\"msg\":\"method\",\"method\":\"login\",\"params\":[{\"resume\":\"bYcxYfvjuDXgPeehw\"}],\"id\":\"1\"}");
         // sock.send("{\"msg\":\"sub\",\"id\":\"TBhzNkMbK646ZZcKc\",\"name\":\"meteor.loginServiceConfiguration\",\"params\":[]}");
         // sock.send("{\"msg\":\"sub\",\"id\":\"zW7SXSqyvaRweRaC3\",\"name\":\"rooms\",\"params\":[]}");
-
-        if(docCookies.getItem("userToken") != null)
+        if(docCookies.getItem("userToken") !== null && docCookies.getItem("userToken") != 'null')
           userToken = docCookies.getItem("userToken");
-        else
+        else {
           userToken = null;
+          console.log('set userToken to null');
+        }
 
         // console.log('Last Usertoken:'+userToken);
 
@@ -379,6 +389,9 @@ new_conn = function() {
                   window.location.href = xpathItem.attr('href');
                 }
 
+              }
+              else if(command == 'goBack') {
+                history.go(-1);
               }
             }
           }

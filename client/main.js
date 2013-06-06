@@ -54,6 +54,9 @@ Template.room.events({
     room = Rooms.findOne({roomId:roomId},{});
     console.log($(this).attr('xpath'));
     Rooms.update(room._id,{$push: {"actions": {name: 'xpath', xpath: $(this).attr('xpath')}}});
+  },
+  'click .btn.goBack' : function () {
+    Rooms.update(room._id,{$push: {"actions": {name: 'goBack'}}});
   }
 });
 
@@ -139,6 +142,8 @@ roomHelper = function(roomId) {
 
   if(typeof room.users[1] == 'undefined') {
     Session.set('isViewer', true);
+    console.log('isViewer is true');
+    console.log(room.users);
   }
   else {
     Session.set('isViewer', false);
@@ -225,7 +230,7 @@ Meteor.startup(function () {
   // });
 
   // Display Debug Information
-  Session.set('isDebug', false);
+  Session.set('isDebug', true);
 
   Meteor.call('login', {anonymous: true}, function(err, result) {
     Accounts._makeClientLoggedIn(result.id, result.token);

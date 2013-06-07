@@ -39,6 +39,7 @@
           "lib/hashids.js",
           "lib/uuid.js",
           "lib/doccookies.js",
+          "lib/meteor-ddp.js",
           "inject.js"
           ]
     }

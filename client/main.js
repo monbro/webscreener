@@ -55,7 +55,7 @@ Template.room.events({
     console.log($(this).attr('xpath'));
     Rooms.update(room._id,{$push: {"actions": {name: 'xpath', xpath: $(this).attr('xpath')}}});
   },
-  'click .btn.goBack' : function () {
+  'click .btn[command=goBack]' : function () {
     Rooms.update(room._id,{$push: {"actions": {name: 'goBack'}}});
   }
 });

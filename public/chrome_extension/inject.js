@@ -379,7 +379,7 @@ new_conn = function() {
                 // not working atm
               }
               else if(command == "toggleNav") {
-                if(navHidden) {
+                if(!navHidden) {
                   navHidden = !navHidden;
                   wrapper.find('.slideup').click();
                 }

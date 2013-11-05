@@ -15,6 +15,8 @@ In order to get it running on your local machine do the following steps:
 ## 1. How to start the server on localhost
 * Ensure you are on the latest nodeJS and meteor or meteorite version
 
+* open the console and go into the folder, where you cloned this repository to
+
 * start the meteor server with port 80 like 'meteor --port 80'
 
 ## 2. How to use the extension on vimeo
@@ -26,7 +28,7 @@ In order to get it running on your local machine do the following steps:
 
 * Try the available command buttons to remote-control this vimeo subpage.
 
-* Try to add Event-Trigger by yourself by
+* Try to add Event-Trigger by yourself by (experimental!)
 
     a) click Button "select Listener"
 

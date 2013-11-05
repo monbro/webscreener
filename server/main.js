@@ -27,7 +27,7 @@ function garbageCollectorActions() {
     //     console.log('remove '+a);
     //     Rooms.update(v._id,{$pull: {"actions": {name: b.name}}});
     //   }
-    // }); 
+    // });
 
   });
 }
@@ -76,7 +76,7 @@ Meteor.startup(function () {
   // code to run on server at startup
   // if (Rooms.find({roomId:'root'}).count() === 0) {
   //   Rooms.insert({name: 'Default Room', roomId: 'root', users: [], actions: []});
-  // } 
+  // }
 
   Meteor.setInterval( function () {
     garbageCollectorUser();

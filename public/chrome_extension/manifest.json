@@ -12,11 +12,13 @@
   "permissions": [
     "https://secure.flickr.com/",
     "http://localhost/*",
+    "http://localhost/sockjs/*",
     "tabs", "https://vimeo.com/*"
   ],
   "web_accessible_resources": [
       "css/style.css",
-      "css/bootstrap-combined.min.css"
+      "css/bootstrap-combined.min.css",
+      "lib/jquery.min.map"
   ],
   "background": {
       "scripts": [
@@ -38,6 +40,7 @@
           "lib/sockjs-0.3.min.js",
           "lib/hashids.js",
           "lib/uuid.js",
+          "lib/jquery.min.map",
           "lib/doccookies.js",
           "lib/meteor-ddp.js",
           "inject.js"

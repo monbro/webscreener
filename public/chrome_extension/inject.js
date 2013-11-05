@@ -145,7 +145,7 @@ jQuery.fn.getPath = function () {
     var parent = node.parent();
 
     var siblings = parent.children(name);
-    if (siblings.length > 1) { 
+    if (siblings.length > 1) {
       name += ':eq(' + siblings.index(realNode) + ')';
     }
 
@@ -264,7 +264,7 @@ new_conn = function() {
 
   sock.onopen = function() {
    console.log('socket opened');
-   // 
+   //
   };
 
   // error after one reconnect socket pipe is not closed (from server?)

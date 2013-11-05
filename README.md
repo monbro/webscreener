@@ -9,7 +9,7 @@ Remote control for any website (current prototype vimeo.com only). Add click eve
 * start the meteor server with port 80 like 'meteor --port 80'
 
 ## How to use on vimeo
-* Download Chrome-Extension-File from /public/chrome_extension.crx or load the unpacked from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
+* Load the unpacked extension from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
 
 * Activate the extension if it isnt and go to a new Vimeo-Video-Subpage like https://vimeo.com/64448741
 

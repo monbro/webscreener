@@ -5,19 +5,19 @@ Currently a chrome extension which will allow you nearly real time remote contro
 Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control.
 
 ## Testrun
-In order to get it running on your machine you need:
+In order to get it running on your local machine do the following steps:
 * web connection (for the vimeo page only)
 
 * Start the meteor server like described in 1.
 
-* Use the chrom extension like described in 2.
+* Activate the chrome extension like described in 2.
 
 ## 1. How to start the server on localhost
 * Ensure you are on the latest nodeJS and meteor or meteorite version
 
 * start the meteor server with port 80 like 'meteor --port 80'
 
-## 2. How to use on vimeo
+## 2. How to use the extension on vimeo
 * Load the unpacked extension from /pulic/chrome_extension/ via http://developer.chrome.com/extensions/getstarted.html#unpacked
 
 * Activate the extension if it isnt and go to a new Vimeo-Video-Subpage like https://vimeo.com/64448741
@@ -41,7 +41,6 @@ If successful it should look like
 ## Used technology
 
 websockets, node js via meteor, chrome extension system, mongodb
-
 
 ------
 

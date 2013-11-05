@@ -8,7 +8,7 @@ Accounts.registerLoginHandler(function(options) {
 var isUserOnline = function(userId) {
   var sockets = Meteor.default_server.stream_server.open_sockets;
   return _.any(sockets,function(socket){
-    return userId === socket.meteor_session.userId;
+    return userId === socket._meteorSession.userId;
   });
 };
 

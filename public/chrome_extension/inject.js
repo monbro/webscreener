@@ -258,6 +258,10 @@ var domain = 'http://localhost/';
 
 var sock;
 
+var toggle;
+
+var navHidden = false;
+
 new_conn = function() {
 
   sock = new SockJS(domain+'sockjs', null, {'debug': true});
@@ -367,14 +371,26 @@ new_conn = function() {
                   $('body').css('background-color','black');
               }
               else if(command == "togglePlay") {
-                $('.vimeo_holder .player button.as.av').trigger('click');
+                // toggle = $('.play-wrapper button.play').hasClass('state-paused');
+                $('html>body>div:eq(2)>div:eq(1)>div:eq(1)>div>div:eq(1)>div:eq(0)>div>div>div:eq(1)').trigger('click');
               }
               else if(command == "toggleFullscreen") {
-                $('.vimeo_holder .player .h.av .s canvas').trigger('click');
+                // $('.player .h.av .s canvas').trigger('click');
+                // not working atm
+              }
+              else if(command == "toggleNav") {
+                if(navHidden) {
+                  navHidden = !navHidden;
+                  wrapper.find('.slideup').click();
+                }
+                else {
+                  navHidden = !navHidden;
+                  $('.webscreeneropener').click();
+                }
               }
               else if(command == "xpath") {
                 var xpath = lastItem.xpath;
-                // console.log("do it on xpath: "+xpath);
+                console.log("do it on xpath: "+xpath);
                 // $(xpath).trigger('click');
                                       // var item = $.xpath(xpath);
                 // console.log(item);

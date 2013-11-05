@@ -57,7 +57,10 @@ Template.room.events({
   },
   'click .btn[command=goBack]' : function () {
     Rooms.update(room._id,{$push: {"actions": {name: 'goBack'}}});
-  }
+  },
+  'click .btn[command=toggleNav]' : function () {
+    Rooms.update(room._id,{$push: {"actions": {name: 'toggleNav'}}});
+  },
 });
 
 function getYtbVid(url) {

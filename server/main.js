@@ -8,6 +8,9 @@ Accounts.registerLoginHandler(function(options) {
 var isUserOnline = function(userId) {
   var sockets = Meteor.default_server.stream_server.open_sockets;
   return _.any(sockets,function(socket){
+    if(socket._meteorSession === null) {
+        return false;
+    }
     return userId === socket._meteorSession.userId;
   });
 };
@@ -45,8 +48,6 @@ function garbageCollectorRooms() {
   });
 }
 
-
-
 function garbageCollectorUser() {
   rooms = Rooms.find({},{}).fetch();
 
@@ -59,8 +60,11 @@ function garbageCollectorUser() {
       }
       else {
         // remove User from List
-        console.log(b.name+' to be removed!');
-        Rooms.update(v._id,{$pull: {"users": {name: b.name}}});
+        if(b.name  !== undefined) {
+            console.log(b.name+' to be removed!');
+            Rooms.update(v._id,{$pull: {"users": {name: b.name}}});
+        }
+         // Rooms.update(v._id,{$pull: {"users": {  "name" : { "$exists" : false } }}});
       }
     });
 

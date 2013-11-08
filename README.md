@@ -2,7 +2,7 @@
 Currently a chrome extension which will allow you nearly real time remote control of any website trough an automatic generated interface.
 
 ## Description
-Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control.
+Remote control for any website (current prototype vimeo.com only). Add click events to any html element and activate them trough the web interface in the showen url. You need to install a google chrome extension to use the remote control. For a better understanding take a look at the presentation: https://docs.google.com/presentation/d/1vs_XYbRxrcTKwZqM_I7odOhSmGVgOuhaD9Ucf4H3ULY/edit?usp=sharing
 
 ## Testrun
 In order to get it running on your local machine do the following steps:

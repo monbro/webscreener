@@ -5,9 +5,9 @@
 
 preserve-inputs
 router
-bootstrap
 accounts-base
 standard-app-packages
 http
 stylus
 font-awesome
+bootstrap-3

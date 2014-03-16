@@ -8,6 +8,7 @@
     "accounts-anonymous": {
       "git": "https://github.com/rissem/meteor-accounts-anonymous"
     },
-    "font-awesome": {}
+    "font-awesome": {},
+    "bootstrap-3": {}
   }
 }

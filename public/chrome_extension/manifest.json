@@ -12,6 +12,9 @@
   "permissions": [
     "https://secure.flickr.com/",
     "http://localhost/*",
+    "https://webscreener.meteor.com/*",
+    "http://webscreener.meteor.com/*",
+    "http://*/*",
     "http://localhost/sockjs/*",
     "tabs", "https://vimeo.com/*"
   ],
@@ -28,8 +31,12 @@
   },
   "content_scripts": [  {
       "matches": [
-          "https://vimeo.com/*",
-          "http://vimeo.com/*"
+          "http://*/*",
+          "https://*/*"
+          // "https://vimeo.com/*",
+          // "http://vimeo.com/*",
+          // "http://www.reddit.com/*",
+          // "http://www.reddit.com/"
           ],
       "css": [
           "css/bootstrap-combined.min.css",

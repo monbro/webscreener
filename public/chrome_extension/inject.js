@@ -17,6 +17,11 @@
 
 
 // console.log('Inject: IAM here'); // works
+console.log(window.location.hostname);
+if(window.location.hostname == 'localhost' || window.location.hostname == 'webscreener.meteor.com') {
+  console.log('you are on localhost, prevent window!');
+  return;
+}
 
 msgCounter = 1;
 
@@ -253,8 +258,18 @@ $(function(){
 
 // $('.vimeo_holder .player button.as.av').trigger('click'); // works
 
-var domain = 'http://localhost/';
+// var domain = 'http://localhost/';
 // var domain = 'https://ddp--4145-webscreener.meteor.com/';
+// var domain = 'https://ddp--2270-webscreener.meteor.com/';
+
+if (window.location.protocol != "https:") {
+  var domain = 'http://webscreener.meteor.com/';
+}
+else {
+  var domain = 'https://webscreener.meteor.com/';
+}
+// console.log(domain);
+// console.log(window.location.protocol);
 
 var sock;
 
